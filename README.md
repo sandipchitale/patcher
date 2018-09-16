@@ -53,8 +53,8 @@ Call the patcher:
 <td class="description last">name of the constructor to override e.g. 'Date'</td>
 </tr>
 <tr>
-<td class="name">callback</td>
-<td class="type"><span class="param-type">callback</span></td>
+<td class="name">beforeCallback</td>
+<td class="type"><span class="param-type">beforeCallback</span></td>
 <td class="description last">a callback to do special handling. return null to have original constructor called.</td>
 </tr>
 </tbody>
@@ -62,7 +62,7 @@ Call the patcher:
 
 ### Type Definitions
 
-#### <span class="type-signature"></span>callback<span class="signature">(original, patchedOriginal, arguments)</span><span class="type-signature"></span>
+#### <span class="type-signature"></span>beforeCallback<span class="signature">(original, patchedOriginal, arguments)</span><span class="type-signature"></span>
 
 ##### Parameters:
 <table class="params">
@@ -77,20 +77,82 @@ Call the patcher:
 <tr>
 <td class="name">original</td>
 <td class="type"><span class="param-type">function</span></td>
-<td class="description last"></td>
+<td class="description last">the original constructor</td>
 </tr>
 <tr>
 <td class="name">patchedOriginal</td>
 <td class="type"><span class="param-type">function</span></td>
-<td class="description last"></td>
+<td class="description last">the original constructor</td>
 </tr>
 <tr>
 <td class="name">arguments</td>
-<td class="type"><span class="param-type">Array.<any></span></td>
-<td class="description last"></td>
+<td class="type"><span class="param-type">Array.&lt;any&gt;</span></td>
+<td class="description last">the call arguments array</td>
 </tr>
 </tbody>
 </table>
+
+#### <span class="type-signature"></span>afterCallback<span class="signature">(original, patchedOriginal, arguments)</span><span class="type-signature"></span>
+
+##### Parameters:
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name">original</td>
+<td class="type"><span class="param-type">function</span></td>
+<td class="description last">the original constructor</td>
+</tr>
+<tr>
+<td class="name">patchedOriginal</td>
+<td class="type"><span class="param-type">function</span></td>
+<td class="description last">the original constructor</td>
+</tr>
+<tr>
+<td class="name">returnValue</td>
+<td class="type"><span class="param-type">any</span></td>
+<td class="description last">the return value - newly constructed object</td>
+</tr>
+</tbody>
+</table>
+
+#### <span class="type-signature"></span>afterThrowCallback<span class="signature">(original, patchedOriginal, arguments)</span><span class="type-signature"></span>
+
+##### Parameters:
+<table class="params">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th class="last">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="name">original</td>
+<td class="type"><span class="param-type">function</span></td>
+<td class="description last">the original constructor</td>
+</tr>
+<tr>
+<td class="name">patchedOriginal</td>
+<td class="type"><span class="param-type">function</span></td>
+<td class="description last">the original constructor</td>
+</tr>
+<tr>
+<td class="name">exception</td>
+<td class="type"><span class="param-type">any</span></td>
+<td class="description last">the thrown exception</td>
+</tr>
+</tbody>
+</table>
+
+
 </article>
 </section>
 
