@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Patcher Example - monkey patch Date</title>
+    <style>
+        pre {
+            border: 1px dotted #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>patcher.js Live Sample</h1>
+    <pre id="output">
+</pre>
+    <a href="https://raw.githubusercontent.com/sandipchitale/patcher/master/index.html" target="_blank">Source</a>
+    <br/>
+    <a href="patcher.js" target="_blank">patcher.js</a>
+    <br/>
+    <a href="https://github.com/sandipchitale/patcher" target="_blank">Github</a>
+    <script src="patcher.js"></script>
+    <script>
+        function displayAndLog(line) {
+            console.log(line);
+            document.querySelector("#output").innerText +=  ('\n' + line);
+        }
+
+        displayAndLog('With original Date constructor:');
+        displayAndLog('');
+        displayAndLog('var now = new Date();');
+        var now = new Date();
+        displayAndLog('var nowDate = new Date(now);');
+        var nowDate = new Date(now);
+        displayAndLog('');
+        displayAndLog(now + ' has milliseconds: ' + now.getMilliseconds());
+        displayAndLog('Without patching on IE11 the milliseconds get reset to 0');
+        displayAndLog(nowDate  + ' has milliseconds: ' +  nowDate.getMilliseconds());
+        displayAndLog('');
+        displayAndLog('');
+
+        //if (window.navigator && window.navgator.userAgent && (navigator.userAgent.indexOf('MSIE') !== -1 || navigator.appVersion.indexOf('Trident/') !== -1)) {
+        patcher(window, 'Date', function(Original, PatchedOriginal, args) {
+            // If one passed argument is a Date - this is to workaorund a bug in IE11
+            if (args.length === 1 && (args[0] instanceof Original || args[0] instanceof PatchedOriginal)) {
+                return new Original(args[0].getTime());
+            }
+            return null;
+        });
+        //} // IE ONly
+
+        displayAndLog('After monkey patching Date constructor using patcher.js (see link below):');
+        displayAndLog('');
+        displayAndLog('now = new Date();');
+        now = new Date();
+        displayAndLog('nowDate = new Date(now);');
+        nowDate = new Date(now);
+        displayAndLog('');
+        displayAndLog(now + ' has milliseconds: ' + now.getMilliseconds());
+        displayAndLog('With patching on IE11 the milliseconds survive!');
+        displayAndLog(nowDate  + ' has milliseconds: ' +  nowDate.getMilliseconds());
+    </script>
+</body>
+</html>
